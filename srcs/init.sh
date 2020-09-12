@@ -10,7 +10,7 @@ service nginx start
 mv nginx.conf /etc/nginx/sites-available/nginx.conf
 ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
 unlink /etc/nginx/sites-enabled/default
-mkdir /var/www/php
-mv index.php /var/www/php
-service php7.3-fpm start
+mkdir var/www/mysite
+service mysql restart
+service php7.3-fpm start 
 service nginx restart
