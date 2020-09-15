@@ -1,13 +1,19 @@
+#To install new packages
 apt-get update && apt-get install -y
+#To download files from web
 apt-get install -y wget
-apt-get install -y curl
+#Install nginx for the webserver
 apt-get install -y nginx
+#php-fpm = communication between php and webserver
+#php-mysql = module mysql for php and install php 
 apt-get install -y php-fpm php-mysql
+#mariadb = mysql for debian 10
 apt-get install -y mariadb-server
+#php modules maybe used by wordpress
 apt-get install -y php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip
-chown -R www-data:www-data /var/www/html
 service nginx start
 mv nginx.conf /etc/nginx/sites-available/nginx.conf
+#symlink to enable our nginx.conf
 ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
 unlink /etc/nginx/sites-enabled/default
 mkdir var/www/mysite
@@ -20,6 +26,7 @@ tar xvf phpMyAdmin-4.9.0.1-english.tar.gz
 mkdir /var/www/mysite/phpmyadmin
 mv phpMyAdmin-4.9.0.1-english/* /var/www/mysite/phpmyadmin/
 mv start.sql /var/www/
+#create the self-signed certificate
 openssl req -x509 -out mysite.crt -keyout mysite.key -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost'
 mv mysite.crt /etc/ssl/certs/
 mv mysite.key /etc/ssl/certs/
