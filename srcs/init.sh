@@ -16,6 +16,9 @@ tar xvf phpMyAdmin-4.9.0.1-english.tar.gz
 mkdir /var/www/mysite/phpmyadmin
 cp -R phpMyAdmin-4.9.0.1-english/* /var/www/mysite/phpmyadmin/
 mv start.sql /var/www/
+openssl req -x509 -out mysite.crt -keyout mysite.key -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost'
+mv mysite.crt /etc/ssl/certs/
+mv mysite.key /etc/ssl/certs/
 service mysql start
 mysql < /var/www/start.sql
 service mysql restart
