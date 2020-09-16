@@ -29,9 +29,12 @@ mv start.sql /var/www/
 service mysql start
 mysql < /var/www/start.sql
 #create the self-signed certificate
-openssl req -x509 -out mysite.crt -keyout mysite.key -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost'
-mv mysite.crt /etc/ssl/certs/
-mv mysite.key /etc/ssl/certs/
+openssl req -x509 -out localhost.crt -keyout localhost.key \
+  -newkey rsa:2048 -nodes -sha256 \
+  -subj '/CN=localhost' -extensions EXT -config <( \
+   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+mv localhost.crt /etc/ssl/certs/
+mv localhost.key /etc/ssl/certs/
 service nginx restart
 service php7.3-fpm start
 service mysql restart
